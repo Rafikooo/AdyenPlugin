@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sylius package.
+ * This file is part of the Sylius Adyen Plugin package.
  *
  * (c) Sylius Sp. z o.o.
  *
@@ -29,9 +29,9 @@ final class ShopperReferenceResolver implements ShopperReferenceResolverInterfac
 
     public function resolve(PaymentMethodInterface $paymentMethod, CustomerInterface $customer): ShopperReferenceInterface
     {
-        $shopperReference = $this->shopperReferenceRepository->findOneBy(['customer' => $customer]);
+        $shopperReference = $this->shopperReferenceRepository->findOneByPaymentMethodAndCustomer($paymentMethod, $customer);
 
-        if (null === $shopperReference) {
+        if ($shopperReference === null) {
             $shopperReference = $this->shopperReferenceFactory->create($paymentMethod, $customer);
             $this->shopperReferenceRepository->add($shopperReference);
         }

@@ -15,8 +15,8 @@ namespace Sylius\AdyenPlugin\Controller\Shop;
 
 use Sylius\AdyenPlugin\Exception\TokenRemovalFailureException;
 use Sylius\AdyenPlugin\Provider\AdyenClientProviderInterface;
-use Sylius\AdyenPlugin\Repository\ShopperReferenceRepositoryInterface;
 use Sylius\AdyenPlugin\Repository\PaymentMethodRepositoryInterface;
+use Sylius\AdyenPlugin\Repository\ShopperReferenceRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\HttpFoundation\Request;
