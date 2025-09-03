@@ -39,7 +39,7 @@ interface AdyenClientInterface
 
     public function getAvailablePaymentMethods(
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array;
 
     public function getEnvironment(): string;
@@ -53,7 +53,7 @@ interface AdyenClientInterface
 
     public function paymentDetails(
         array $receivedPayload,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array;
 
     public function requestRefund(
@@ -69,7 +69,7 @@ interface AdyenClientInterface
 
     public function removeStoredToken(
         string $paymentReference,
-        ShopperReferenceInterface $adyenToken,
+        ShopperReferenceInterface $shopperReference,
     ): array;
 
     public function requestCancellation(PaymentInterface $payment): array;

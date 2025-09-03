@@ -57,10 +57,10 @@ final class AdyenClient implements AdyenClientInterface
 
     public function getAvailablePaymentMethods(
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         $paymentMethods = (array) $this->getCheckout()->paymentMethods(
-            $this->clientPayloadFactory->createForAvailablePaymentMethods($this->options, $order, $adyenToken),
+            $this->clientPayloadFactory->createForAvailablePaymentMethods($this->options, $order, $shopperReference),
         );
 
         Assert::keyExists($paymentMethods, 'paymentMethods');
@@ -70,11 +70,11 @@ final class AdyenClient implements AdyenClientInterface
 
     public function paymentDetails(
         array $receivedPayload,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         $payload = $this->clientPayloadFactory->createForPaymentDetails(
             $receivedPayload,
-            $adyenToken,
+            $shopperReference,
         );
 
         return (array) $this->getCheckout()->paymentsDetails($payload);
@@ -119,9 +119,9 @@ final class AdyenClient implements AdyenClientInterface
 
     public function removeStoredToken(
         string $paymentReference,
-        ShopperReferenceInterface $adyenToken,
+        ShopperReferenceInterface $shopperReference,
     ): array {
-        $params = $this->clientPayloadFactory->createForTokenRemove($this->options, $paymentReference, $adyenToken);
+        $params = $this->clientPayloadFactory->createForTokenRemove($this->options, $paymentReference, $shopperReference);
 
         return (array) $this->getRecurring()->disable($params);
     }

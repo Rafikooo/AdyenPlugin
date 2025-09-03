@@ -80,7 +80,7 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
     public function createForAvailablePaymentMethods(
         ArrayObject $options,
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         $address = $order->getBillingAddress();
         $countryCode = $address?->getCountryCode() ?? '';
@@ -99,8 +99,8 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
             'allowedPaymentMethods' => $this->allowedMethodsList,
         ];
 
-        $payload = $this->injectShopperReference($payload, $adyenToken);
-        $payload = $this->enableOneOffPaymentIfApplicable($payload, $adyenToken);
+        $payload = $this->injectShopperReference($payload, $shopperReference);
+        $payload = $this->enableOneOffPaymentIfApplicable($payload, $shopperReference);
         $payload = $this->versionResolver->appendVersionConstraints($payload);
 
         return $payload;
@@ -108,10 +108,10 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
 
     public function createForPaymentDetails(
         array $receivedPayload,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
-        $payload = $this->injectShopperReference($receivedPayload, $adyenToken);
-        $payload = $this->enableOneOffPaymentIfApplicable($payload, $adyenToken);
+        $payload = $this->injectShopperReference($receivedPayload, $shopperReference);
+        $payload = $this->enableOneOffPaymentIfApplicable($payload, $shopperReference);
         $payload = $this->versionResolver->appendVersionConstraints($payload);
 
         return $payload;
@@ -122,7 +122,7 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
         string $url,
         array $receivedPayload,
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         $billingAddress = $order->getBillingAddress();
         $countryCode = null !== $billingAddress
@@ -150,10 +150,10 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
             'browserInfo', 'paymentMethod', 'clientStateDataIndicator', 'riskData',
         ]) + $payload;
 
-        $payload = $this->injectShopperReference($payload, $adyenToken);
+        $payload = $this->injectShopperReference($payload, $shopperReference);
         $payload = $this->enableOneOffPaymentIfApplicable(
             $payload,
-            $adyenToken,
+            $shopperReference,
             (bool) ($receivedPayload['storePaymentMethod'] ?? false),
         );
         $payload = $this->versionResolver->appendVersionConstraints($payload);
@@ -204,12 +204,12 @@ final class ClientPayloadFactory implements ClientPayloadFactoryInterface
     public function createForTokenRemove(
         ArrayObject $options,
         string $paymentReference,
-        ShopperReferenceInterface $adyenToken,
+        ShopperReferenceInterface $shopperReference,
     ): array {
         $params = [
             'merchantAccount' => $options['merchantAccount'],
             'recurringDetailReference' => $paymentReference,
-            'shopperReference' => $adyenToken->getIdentifier(),
+            'shopperReference' => $shopperReference->getIdentifier(),
         ];
 
         $params = $this->versionResolver->appendVersionConstraints($params);

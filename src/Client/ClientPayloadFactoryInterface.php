@@ -30,17 +30,17 @@ interface ClientPayloadFactoryInterface
     public function createForAvailablePaymentMethods(
         ArrayObject $options,
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array;
 
-    public function createForPaymentDetails(array $receivedPayload, ?ShopperReferenceInterface $adyenToken = null): array;
+    public function createForPaymentDetails(array $receivedPayload, ?ShopperReferenceInterface $shopperReference = null): array;
 
     public function createForSubmitPayment(
         ArrayObject $options,
         string $url,
         array $receivedPayload,
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array;
 
     public function createForCapture(ArrayObject $options, PaymentInterface $payment): array;
@@ -50,7 +50,7 @@ interface ClientPayloadFactoryInterface
     public function createForTokenRemove(
         ArrayObject $options,
         string $paymentReference,
-        ShopperReferenceInterface $adyenToken,
+        ShopperReferenceInterface $shopperReference,
     ): array;
 
     public function createForRefund(

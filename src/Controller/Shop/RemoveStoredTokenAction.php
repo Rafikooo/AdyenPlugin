@@ -27,7 +27,7 @@ class RemoveStoredTokenAction
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly ShopperReferenceRepositoryInterface $adyenTokenRepository,
+        private readonly ShopperReferenceRepositoryInterface $shopperReferenceRepository,
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly AdyenClientProviderInterface $adyenClientProvider,
     ) {
@@ -63,7 +63,7 @@ class RemoveStoredTokenAction
 
         $paymentMethod = $this->paymentMethodRepository->getOneAdyenForCode($code);
 
-        $token = $this->adyenTokenRepository->findOneByPaymentMethodAndCustomer($paymentMethod, $customer);
+        $token = $this->shopperReferenceRepository->findOneByPaymentMethodAndCustomer($paymentMethod, $customer);
         if (null === $token) {
             throw TokenRemovalFailureException::forNonExistingToken();
         }

@@ -96,7 +96,7 @@ final class AdyenClientStub implements AdyenClientInterface
 
     public function getAvailablePaymentMethods(
         OrderInterface $order,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         return [
             'paymentMethods' => [
@@ -115,7 +115,7 @@ final class AdyenClientStub implements AdyenClientInterface
 
     public function paymentDetails(
         array $receivedPayload,
-        ?ShopperReferenceInterface $adyenToken = null,
+        ?ShopperReferenceInterface $shopperReference = null,
     ): array {
         $base = [
             'pspReference' => 'DETAILS_PSP_REF',
@@ -176,7 +176,7 @@ final class AdyenClientStub implements AdyenClientInterface
 
     public function removeStoredToken(
         string $paymentReference,
-        ShopperReferenceInterface $adyenToken,
+        ShopperReferenceInterface $shopperReference,
     ): array {
         return [];
     }
