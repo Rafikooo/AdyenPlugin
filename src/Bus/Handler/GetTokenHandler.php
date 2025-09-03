@@ -15,9 +15,9 @@ namespace Sylius\AdyenPlugin\Bus\Handler;
 
 use Sylius\AdyenPlugin\Bus\Command\CreateToken;
 use Sylius\AdyenPlugin\Bus\Query\GetToken;
-use Sylius\AdyenPlugin\Entity\AdyenTokenInterface;
+use Sylius\AdyenPlugin\Entity\ShopperReferenceInterface;
 use Sylius\AdyenPlugin\Exception\OrderWithoutCustomerException;
-use Sylius\AdyenPlugin\Repository\AdyenTokenRepositoryInterface;
+use Sylius\AdyenPlugin\Repository\ShopperReferenceRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\HandleTrait;
@@ -32,14 +32,14 @@ final class GetTokenHandler
     use HandleTrait;
 
     public function __construct(
-        private readonly AdyenTokenRepositoryInterface $adyenTokenRepository,
+        private readonly ShopperReferenceRepositoryInterface $adyenTokenRepository,
         private readonly TokenStorageInterface $tokenStorage,
         MessageBusInterface $messageBus,
     ) {
         $this->messageBus = $messageBus;
     }
 
-    public function __invoke(GetToken $getTokenQuery): ?AdyenTokenInterface
+    public function __invoke(GetToken $getTokenQuery): ?ShopperReferenceInterface
     {
         if (null === $this->getUser()) {
             return null;

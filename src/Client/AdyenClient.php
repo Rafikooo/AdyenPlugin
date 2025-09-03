@@ -22,7 +22,7 @@ use Adyen\Service\Checkout\UtilityApi;
 use Adyen\Service\Modification;
 use Adyen\Service\Recurring;
 use Payum\Core\Bridge\Spl\ArrayObject;
-use Sylius\AdyenPlugin\Entity\AdyenTokenInterface;
+use Sylius\AdyenPlugin\Entity\ShopperReferenceInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
@@ -57,7 +57,7 @@ final class AdyenClient implements AdyenClientInterface
 
     public function getAvailablePaymentMethods(
         OrderInterface $order,
-        ?AdyenTokenInterface $adyenToken = null,
+        ?ShopperReferenceInterface $adyenToken = null,
     ): array {
         $paymentMethods = (array) $this->getCheckout()->paymentMethods(
             $this->clientPayloadFactory->createForAvailablePaymentMethods($this->options, $order, $adyenToken),
@@ -70,7 +70,7 @@ final class AdyenClient implements AdyenClientInterface
 
     public function paymentDetails(
         array $receivedPayload,
-        ?AdyenTokenInterface $adyenToken = null,
+        ?ShopperReferenceInterface $adyenToken = null,
     ): array {
         $payload = $this->clientPayloadFactory->createForPaymentDetails(
             $receivedPayload,
@@ -84,7 +84,7 @@ final class AdyenClient implements AdyenClientInterface
         string $redirectUrl,
         array $receivedPayload,
         OrderInterface $order,
-        ?AdyenTokenInterface $customerIdentifier = null,
+        ?ShopperReferenceInterface $customerIdentifier = null,
     ): array {
         if (!isset($receivedPayload['paymentMethod'])) {
             throw new \InvalidArgumentException();
@@ -119,7 +119,7 @@ final class AdyenClient implements AdyenClientInterface
 
     public function removeStoredToken(
         string $paymentReference,
-        AdyenTokenInterface $adyenToken,
+        ShopperReferenceInterface $adyenToken,
     ): array {
         $params = $this->clientPayloadFactory->createForTokenRemove($this->options, $paymentReference, $adyenToken);
 

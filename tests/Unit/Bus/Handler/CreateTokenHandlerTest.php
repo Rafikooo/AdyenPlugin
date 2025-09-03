@@ -16,15 +16,15 @@ namespace Tests\Sylius\AdyenPlugin\Unit\Bus\Handler;
 use PHPUnit\Framework\TestCase;
 use Sylius\AdyenPlugin\Bus\Command\CreateToken;
 use Sylius\AdyenPlugin\Bus\Handler\CreateTokenHandler;
-use Sylius\AdyenPlugin\Entity\AdyenToken;
-use Sylius\AdyenPlugin\Factory\AdyenTokenFactoryInterface;
+use Sylius\AdyenPlugin\Entity\ShopperReference;
+use Sylius\AdyenPlugin\Factory\ShopperReferenceFactoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
 class CreateTokenHandlerTest extends TestCase
 {
-    /** @var AdyenTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ShopperReferenceFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $adyenTokenFactory;
 
     /** @var CreateTokenHandler */
@@ -35,7 +35,7 @@ class CreateTokenHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->adyenTokenFactory = $this->createMock(AdyenTokenFactoryInterface::class);
+        $this->adyenTokenFactory = $this->createMock(ShopperReferenceFactoryInterface::class);
         $this->tokenRepository = $this->createMock(EntityRepository::class);
         $this->handler = new CreateTokenHandler($this->adyenTokenFactory, $this->tokenRepository);
     }
@@ -46,7 +46,7 @@ class CreateTokenHandlerTest extends TestCase
         $customer = $this->createMock(CustomerInterface::class);
 
         $request = new CreateToken($paymentMethod, $customer);
-        $token = new AdyenToken();
+        $token = new ShopperReference();
 
         $this->adyenTokenFactory
             ->expects($this->once())

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Sylius\AdyenPlugin\Bus\Handler;
 
 use Sylius\AdyenPlugin\Bus\Command\CreateToken;
-use Sylius\AdyenPlugin\Entity\AdyenTokenInterface;
-use Sylius\AdyenPlugin\Factory\AdyenTokenFactoryInterface;
+use Sylius\AdyenPlugin\Entity\ShopperReferenceInterface;
+use Sylius\AdyenPlugin\Factory\ShopperReferenceFactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -23,12 +23,12 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class CreateTokenHandler
 {
     public function __construct(
-        private readonly AdyenTokenFactoryInterface $tokenFactory,
+        private readonly ShopperReferenceFactoryInterface $tokenFactory,
         private readonly RepositoryInterface $tokenRepository,
     ) {
     }
 
-    public function __invoke(CreateToken $createToken): AdyenTokenInterface
+    public function __invoke(CreateToken $createToken): ShopperReferenceInterface
     {
         $token = $this->tokenFactory->create(
             $createToken->getPaymentMethod(),

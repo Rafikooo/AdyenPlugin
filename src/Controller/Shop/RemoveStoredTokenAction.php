@@ -15,7 +15,7 @@ namespace Sylius\AdyenPlugin\Controller\Shop;
 
 use Sylius\AdyenPlugin\Exception\TokenRemovalFailureException;
 use Sylius\AdyenPlugin\Provider\AdyenClientProviderInterface;
-use Sylius\AdyenPlugin\Repository\AdyenTokenRepositoryInterface;
+use Sylius\AdyenPlugin\Repository\ShopperReferenceRepositoryInterface;
 use Sylius\AdyenPlugin\Repository\PaymentMethodRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
@@ -27,7 +27,7 @@ class RemoveStoredTokenAction
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly AdyenTokenRepositoryInterface $adyenTokenRepository,
+        private readonly ShopperReferenceRepositoryInterface $adyenTokenRepository,
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly AdyenClientProviderInterface $adyenClientProvider,
     ) {

@@ -8,6 +8,11 @@
     <services>
         <defaults public="true"/>
 
+        <service id="sylius_adyen.provider.current_customer" class="Sylius\AdyenPlugin\Provider\CurrentCustomerProvider">
+            <argument type="service" id="security.helper" />
+        </service>
+        <service id="Sylius\AdyenPlugin\Provider\CurrentCustomerProviderInterface" alias="sylius_adyen.provider.current_customer" />
+
         <service
             id="sylius_adyen.provider.esd_type"
             class="Sylius\AdyenPlugin\Provider\EsdTypeProvider"

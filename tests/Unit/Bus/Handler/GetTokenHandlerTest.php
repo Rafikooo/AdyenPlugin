@@ -18,8 +18,8 @@ use PHPUnit\Framework\TestCase;
 use Sylius\AdyenPlugin\Bus\Command\CreateToken;
 use Sylius\AdyenPlugin\Bus\Handler\GetTokenHandler;
 use Sylius\AdyenPlugin\Bus\Query\GetToken;
-use Sylius\AdyenPlugin\Entity\AdyenToken;
-use Sylius\AdyenPlugin\Repository\AdyenTokenRepositoryInterface;
+use Sylius\AdyenPlugin\Entity\ShopperReference;
+use Sylius\AdyenPlugin\Repository\ShopperReferenceRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class GetTokenHandlerTest extends TestCase
 {
-    /** @var AdyenTokenRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ShopperReferenceRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $adyenTokenRepository;
 
     /** @var MessageBusInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -46,7 +46,7 @@ class GetTokenHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->adyenTokenRepository = $this->createMock(AdyenTokenRepositoryInterface::class);
+        $this->adyenTokenRepository = $this->createMock(ShopperReferenceRepositoryInterface::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->messageBus = $this->createMock(MessageBusInterface::class);
 
@@ -106,7 +106,7 @@ class GetTokenHandlerTest extends TestCase
         ;
 
         if ($existingToken) {
-            $repositoryMethod->willReturn(new AdyenToken());
+            $repositoryMethod->willReturn(new ShopperReference());
 
             $this->messageBus
                 ->expects($this->never())
@@ -120,7 +120,7 @@ class GetTokenHandlerTest extends TestCase
             ->method('dispatch')
             ->with($this->callback(fn (CreateToken $command) => $command->getPaymentMethod() === $paymentMethod &&
                 $command->getCustomer() === $customer))
-            ->willReturn(Envelope::wrap(new \stdClass(), [new HandledStamp(new AdyenToken(), static::class)]))
+            ->willReturn(Envelope::wrap(new \stdClass(), [new HandledStamp(new ShopperReference(), static::class)]))
         ;
     }
 
@@ -141,7 +141,7 @@ class GetTokenHandlerTest extends TestCase
         $this->setupMocks($existingToken, $paymentMethod, $customer);
 
         $result = ($this->handler)($query);
-        $this->assertInstanceOf(AdyenToken::class, $result);
+        $this->assertInstanceOf(ShopperReference::class, $result);
     }
 
     public function testForAnonymous(): void
